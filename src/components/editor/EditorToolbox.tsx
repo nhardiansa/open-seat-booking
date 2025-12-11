@@ -1,49 +1,67 @@
-import { MousePointer2, Hand, Type, Square, Circle } from 'lucide-react';
+import { useState } from 'react';
+import { MousePointer2, Hand, Type, Square, Grid3x3 } from 'lucide-react';
 import { useEditorStore } from '@/store/editorStore';
+import { BulkAddSeatModal } from './BulkAddSeatModal';
 import { cn } from '@/lib/utils';
 
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
-
 export function EditorToolbox() {
-  const addSeat = useEditorStore((state) => state.addSeat);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const startPlacementMode = useEditorStore((state) => state.startPlacementMode);
+  const cancelPlacementMode = useEditorStore((state) => state.cancelPlacementMode);
+  const isPlacementMode = useEditorStore((state) => state.isPlacementMode);
 
-  const handleAddSeat = () => {
-    // Add seat at center of canvas
-    addSeat({
-      x: CANVAS_WIDTH / 2,
-      y: CANVAS_HEIGHT / 2,
-      radius: 15,
-      color: '#ef4444',
-      label: `S${Date.now().toString().slice(-3)}`,
-    });
+  const handleBulkAddConfirm = (rows: number, cols: number) => {
+    startPlacementMode(rows, cols);
+  };
+
+  const handleCancelPlacement = () => {
+    cancelPlacementMode();
   };
 
   const tools = [
     { id: 'select', icon: MousePointer2, label: 'Select', action: () => { } },
     { id: 'pan', icon: Hand, label: 'Pan', action: () => { } },
-    { id: 'seat', icon: Circle, label: 'Add Seat', action: handleAddSeat },
+    { id: 'bulk-seat', icon: Grid3x3, label: 'Add Seats (Bulk)', action: () => setIsModalOpen(true) },
     { id: 'text', icon: Type, label: 'Text', action: () => { } },
     { id: 'shape', icon: Square, label: 'Shape', action: () => { } },
   ];
 
   return (
-    <div className="w-14 bg-card border-r border-border flex flex-col items-center py-4 gap-2">
-      {tools.map((tool) => (
-        <button
-          key={tool.id}
-          onClick={tool.action}
-          className={cn(
-            'w-10 h-10 flex items-center justify-center rounded-md',
-            'hover:bg-accent transition-colors',
-            'text-muted-foreground hover:text-accent-foreground',
-            'focus:outline-none focus:ring-2 focus:ring-ring'
-          )}
-          title={tool.label}
-        >
-          <tool.icon className="h-5 w-5" />
-        </button>
-      ))}
-    </div>
+    <>
+      <div className="w-14 bg-card border-r border-border flex flex-col items-center py-4 gap-2">
+        {tools.map((tool) => (
+          <button
+            key={tool.id}
+            onClick={tool.action}
+            className={cn(
+              'w-10 h-10 flex items-center justify-center rounded-md',
+              'hover:bg-accent transition-colors',
+              'text-muted-foreground hover:text-accent-foreground',
+              'focus:outline-none focus:ring-2 focus:ring-ring',
+              tool.id === 'bulk-seat' && isPlacementMode && 'bg-primary text-primary-foreground'
+            )}
+            title={tool.label}
+          >
+            <tool.icon className="h-5 w-5" />
+          </button>
+        ))}
+
+        {isPlacementMode && (
+          <button
+            onClick={handleCancelPlacement}
+            className="mt-auto w-10 h-10 flex items-center justify-center rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors text-xs font-semibold"
+            title="Cancel placement"
+          >
+            ESC
+          </button>
+        )}
+      </div>
+
+      <BulkAddSeatModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onConfirm={handleBulkAddConfirm}
+      />
+    </>
   );
 }
