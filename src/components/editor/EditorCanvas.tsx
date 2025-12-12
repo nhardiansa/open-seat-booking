@@ -14,6 +14,8 @@ export function EditorCanvas() {
 
   const isPlacementMode = useEditorStore((state) => state.isPlacementMode);
   const pendingSeats = useEditorStore((state) => state.pendingSeats);
+  const gridRows = useEditorStore((state) => state.gridRows);
+  const gridCols = useEditorStore((state) => state.gridCols);
   const confirmPlacement = useEditorStore((state) => state.confirmPlacement);
   const cancelPlacementMode = useEditorStore((state) => state.cancelPlacementMode);
 
@@ -59,8 +61,9 @@ export function EditorCanvas() {
   const getPreviewSeats = () => {
     if (!isPlacementMode || pendingSeats.length === 0) return [];
 
-    const cols = Math.ceil(Math.sqrt(pendingSeats.length));
-    const rows = Math.ceil(pendingSeats.length / cols);
+    // Use stored grid dimensions from user input
+    const cols = gridCols;
+    const rows = gridRows;
     const spacing = 35;
 
     const gridWidth = (cols - 1) * spacing;

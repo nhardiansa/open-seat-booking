@@ -9,6 +9,8 @@ interface EditorStore {
   // Placement mode
   isPlacementMode: boolean;
   pendingSeats: Omit<Seat, 'id' | 'x' | 'y'>[];
+  gridRows: number;
+  gridCols: number;
   
   // Actions
   addSeat: (seat: Omit<Seat, 'id'>) => void;
@@ -35,6 +37,8 @@ export const useEditorStore = create<EditorStore>((set) => ({
   
   isPlacementMode: false,
   pendingSeats: [],
+  gridRows: 0,
+  gridCols: 0,
 
   addSeat: (seat) => set((state) => ({
     seats: [
@@ -89,12 +93,16 @@ export const useEditorStore = create<EditorStore>((set) => ({
     set({
       isPlacementMode: true,
       pendingSeats,
+      gridRows: rows,
+      gridCols: cols,
     });
   },
 
   cancelPlacementMode: () => set({
     isPlacementMode: false,
     pendingSeats: [],
+    gridRows: 0,
+    gridCols: 0,
   }),
 
   confirmPlacement: (centerX, centerY) => set((state) => {
@@ -102,9 +110,9 @@ export const useEditorStore = create<EditorStore>((set) => ({
       return state;
     }
 
-    // Calculate grid dimensions
-    const cols = Math.ceil(Math.sqrt(state.pendingSeats.length));
-    const rows = Math.ceil(state.pendingSeats.length / cols);
+    // Use stored grid dimensions from user input
+    const cols = state.gridCols;
+    const rows = state.gridRows;
     const spacing = 35;
     
     // Calculate starting position to center the grid
@@ -130,6 +138,8 @@ export const useEditorStore = create<EditorStore>((set) => ({
       seats: [...state.seats, ...newSeats],
       isPlacementMode: false,
       pendingSeats: [],
+      gridRows: 0,
+      gridCols: 0,
     };
   }),
 }));
