@@ -3,26 +3,99 @@ import { Trash2 } from 'lucide-react';
 
 export function EditorSidebar() {
   const seats = useEditorStore((state) => state.seats);
-  const selectedSeatId = useEditorStore((state) => state.selectedSeatId);
+  const selectedSeatIds = useEditorStore((state) => state.selectedSeatIds);
   const categories = useEditorStore((state) => state.categories);
   const updateSeat = useEditorStore((state) => state.updateSeat);
   const deleteSeat = useEditorStore((state) => state.deleteSeat);
 
-  const selectedSeat = seats.find((seat) => seat.id === selectedSeatId);
+  const selectedSeats = seats.filter((seat) => selectedSeatIds.includes(seat.id));
 
-  if (!selectedSeat) {
+  // No selection
+  if (selectedSeats.length === 0) {
     return (
-      <div className="w-64 bg-card border-l-2 border-l-[#E2E2E2] border-border p-4">
+      <div className="w-64 bg-card border-l border-border p-4">
         <div className="text-center text-muted-foreground py-8">
           <p className="text-sm">No object selected</p>
-          <p className="text-xs mt-2">Click on a seat to edit its properties</p>
+          <p className="text-xs mt-2">Click on a seat or drag to select multiple</p>
         </div>
       </div>
     );
   }
 
+  // Multiple selection
+  if (selectedSeats.length > 1) {
+    return (
+      <div className="w-64 bg-card border-l border-border p-4 overflow-y-auto">
+        <div className="mb-4">
+          <h3 className="font-semibold">Multiple Selected ({selectedSeats.length})</h3>
+          <p className="text-xs text-muted-foreground">Bulk operations</p>
+        </div>
+
+        <div className="space-y-4">
+          {/* Bulk Color */}
+          <div>
+            <label className="text-sm font-medium block mb-2">Apply Color to All</label>
+            <div className="flex gap-2">
+              <input
+                type="color"
+                onChange={(e) => {
+                  selectedSeats.forEach(seat => updateSeat(seat.id, { color: e.target.value }));
+                }}
+                className="h-10 w-16 rounded border border-input cursor-pointer"
+              />
+              <input
+                type="text"
+                placeholder="#ef4444"
+                onChange={(e) => {
+                  selectedSeats.forEach(seat => updateSeat(seat.id, { color: e.target.value }));
+                }}
+                className="flex-1 px-3 py-2 bg-background border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+          </div>
+
+          {/* Bulk Category */}
+          <div>
+            <label className="text-sm font-medium block mb-2">Apply Category to All</label>
+            <select
+              onChange={(e) => {
+                const category = e.target.value || undefined;
+                selectedSeats.forEach(seat => updateSeat(seat.id, { category }));
+              }}
+              className="w-full px-3 py-2 bg-background border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              defaultValue=""
+            >
+              <option value="">Select category...</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Delete All */}
+          <div className="pt-4 border-t border-border">
+            <button
+              onClick={() => {
+                selectedSeats.forEach(seat => deleteSeat(seat.id));
+              }}
+              className="w-full px-4 py-2 bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors flex items-center justify-center gap-2"
+            >
+              <Trash2 className="h-4 w-4" />
+              Delete All ({selectedSeats.length})
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Single selection
+  const selectedSeat = selectedSeats[0];
+
   return (
-    <div className="w-64 bg-card border-l-2 border-l-[#E2E2E2] border-border p-4 overflow-y-auto">
+    <div className="w-64 bg-card border-l border-border p-4 overflow-y-auto">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="font-semibold">Seat Properties</h3>
         <button

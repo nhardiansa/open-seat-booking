@@ -2,8 +2,12 @@ import { EditorToolbox } from '@/components/editor/EditorToolbox';
 import { EditorToolbar } from '@/components/editor/EditorToolbar';
 import { EditorCanvas } from '@/components/editor/EditorCanvas';
 import { EditorSidebar } from '@/components/editor/EditorSidebar';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 export default function Editor() {
+  // Enable keyboard shortcuts (Ctrl+Z, Ctrl+Shift+Z, Ctrl+Y)
+  useKeyboardShortcuts();
+
   return (
     <>
       <title>Editor - Open Seat Booking</title>
@@ -26,4 +30,3 @@ export default function Editor() {
     </>
   );
 }
-

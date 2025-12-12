@@ -4,6 +4,7 @@ import type { Seat, TicketCategory } from '@/types/editor';
 interface EditorStore {
   seats: Seat[];
   selectedSeatId: string | null;
+  selectedSeatIds: string[]; // For multiple selection
   categories: TicketCategory[];
   
   // Placement mode
@@ -11,6 +12,11 @@ interface EditorStore {
   pendingSeats: Omit<Seat, 'id' | 'x' | 'y'>[];
   gridRows: number;
   gridCols: number;
+  
+  // History for undo/redo
+  history: Seat[][];
+  historyIndex: number;
+  maxHistory: number;
   
   // Actions
   addSeat: (seat: Omit<Seat, 'id'>) => void;
@@ -20,15 +26,28 @@ interface EditorStore {
   selectSeat: (id: string | null) => void;
   addCategory: (category: TicketCategory) => void;
   
+  // Multiple selection actions
+  selectMultipleSeats: (ids: string[]) => void;
+  clearSelection: () => void;
+  toggleSeatSelection: (id: string) => void;
+  
   // Placement mode actions
   startPlacementMode: (rows: number, cols: number) => void;
   cancelPlacementMode: () => void;
   confirmPlacement: (x: number, y: number) => void;
+  
+  // History actions
+  saveHistory: () => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: () => boolean;
+  canRedo: () => boolean;
 }
 
-export const useEditorStore = create<EditorStore>((set) => ({
+export const useEditorStore = create<EditorStore>((set, get) => ({
   seats: [],
   selectedSeatId: null,
+  selectedSeatIds: [],
   categories: [
     { id: '1', name: 'General Admission', color: '#ef4444', price: 100 },
     { id: '2', name: 'VIP', color: '#3b82f6', price: 250 },
@@ -39,39 +58,142 @@ export const useEditorStore = create<EditorStore>((set) => ({
   pendingSeats: [],
   gridRows: 0,
   gridCols: 0,
+  
+  // History state
+  history: [[]],
+  historyIndex: 0,
+  maxHistory: 50,
 
-  addSeat: (seat) => set((state) => ({
-    seats: [
-      ...state.seats,
-      {
-        ...seat,
-        id: `seat-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      },
-    ],
-  })),
+  // Save current state to history
+  saveHistory: () => {
+    set((state) => {
+      const currentSeats = JSON.parse(JSON.stringify(state.seats)) as Seat[];
+      const newHistory = state.history.slice(0, state.historyIndex + 1);
+      newHistory.push(currentSeats);
+      
+      // Limit history size
+      if (newHistory.length > state.maxHistory) {
+        newHistory.shift();
+      }
+      
+      return {
+        history: newHistory,
+        historyIndex: newHistory.length - 1,
+      };
+    });
+  },
 
-  addBulkSeats: (seats) => set((state) => ({
-    seats: [
-      ...state.seats,
-      ...seats.map((seat, index) => ({
-        ...seat,
-        id: `seat-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`,
-      })),
-    ],
-  })),
+  // Undo action
+  undo: () => {
+    const state = get();
+    if (state.canUndo()) {
+      const previousSeats = state.history[state.historyIndex - 1];
+      set({
+        seats: JSON.parse(JSON.stringify(previousSeats)) as Seat[],
+        historyIndex: state.historyIndex - 1,
+      });
+    }
+  },
 
-  updateSeat: (id, updates) => set((state) => ({
-    seats: state.seats.map((seat) =>
-      seat.id === id ? { ...seat, ...updates } : seat
-    ),
-  })),
+  // Redo action
+  redo: () => {
+    const state = get();
+    if (state.canRedo()) {
+      const nextSeats = state.history[state.historyIndex + 1];
+      set({
+        seats: JSON.parse(JSON.stringify(nextSeats)) as Seat[],
+        historyIndex: state.historyIndex + 1,
+      });
+    }
+  },
 
-  deleteSeat: (id) => set((state) => ({
-    seats: state.seats.filter((seat) => seat.id !== id),
-    selectedSeatId: state.selectedSeatId === id ? null : state.selectedSeatId,
-  })),
+  // Check if can undo
+  canUndo: () => {
+    const state = get();
+    return state.historyIndex > 0;
+  },
 
-  selectSeat: (id) => set({ selectedSeatId: id }),
+  // Check if can redo
+  canRedo: () => {
+    const state = get();
+    return state.historyIndex < state.history.length - 1;
+  },
+
+  addSeat: (seat) => {
+    set((state) => {
+      const newSeats = [
+        ...state.seats,
+        {
+          ...seat,
+          id: `seat-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        },
+      ];
+      return { seats: newSeats };
+    });
+    get().saveHistory();
+  },
+
+  addBulkSeats: (seats) => {
+    set((state) => {
+      const newSeats = [
+        ...state.seats,
+        ...seats.map((seat, index) => ({
+          ...seat,
+          id: `seat-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`,
+        })),
+      ];
+      return { seats: newSeats };
+    });
+    get().saveHistory();
+  },
+
+  updateSeat: (id, updates) => {
+    set((state) => ({
+      seats: state.seats.map((seat) =>
+        seat.id === id ? { ...seat, ...updates } : seat
+      ),
+    }));
+    get().saveHistory();
+  },
+
+  deleteSeat: (id) => {
+    set((state) => ({
+      seats: state.seats.filter((seat) => seat.id !== id),
+      selectedSeatId: state.selectedSeatId === id ? null : state.selectedSeatId,
+      selectedSeatIds: state.selectedSeatIds.filter((seatId) => seatId !== id),
+    }));
+    get().saveHistory();
+  },
+
+  selectSeat: (id) => set({ 
+    selectedSeatId: id,
+    selectedSeatIds: id ? [id] : [],
+  }),
+
+  // Multiple selection actions
+  selectMultipleSeats: (ids) => set({ 
+    selectedSeatIds: ids,
+    selectedSeatId: ids.length === 1 ? ids[0] : null,
+  }),
+
+  clearSelection: () => set({ 
+    selectedSeatId: null,
+    selectedSeatIds: [],
+  }),
+
+  toggleSeatSelection: (id) => {
+    set((state) => {
+      const isSelected = state.selectedSeatIds.includes(id);
+      const newSelectedIds = isSelected
+        ? state.selectedSeatIds.filter((seatId) => seatId !== id)
+        : [...state.selectedSeatIds, id];
+      
+      return {
+        selectedSeatIds: newSelectedIds,
+        selectedSeatId: newSelectedIds.length === 1 ? newSelectedIds[0] : null,
+      };
+    });
+  },
 
   addCategory: (category) => set((state) => ({
     categories: [...state.categories, category],
@@ -85,7 +207,7 @@ export const useEditorStore = create<EditorStore>((set) => ({
         pendingSeats.push({
           radius: 15,
           color: '#ef4444',
-          label: '', // Empty label, to be defined later
+          label: '',
         });
       }
     }
@@ -105,23 +227,21 @@ export const useEditorStore = create<EditorStore>((set) => ({
     gridCols: 0,
   }),
 
-  confirmPlacement: (centerX, centerY) => set((state) => {
+  confirmPlacement: (centerX, centerY) => {
+    const state = get();
     if (!state.isPlacementMode || state.pendingSeats.length === 0) {
-      return state;
+      return;
     }
 
-    // Use stored grid dimensions from user input
     const cols = state.gridCols;
     const rows = state.gridRows;
     const spacing = 35;
     
-    // Calculate starting position to center the grid
     const gridWidth = (cols - 1) * spacing;
     const gridHeight = (rows - 1) * spacing;
     const startX = centerX - gridWidth / 2;
     const startY = centerY - gridHeight / 2;
 
-    // Create seats with positions
     const newSeats = state.pendingSeats.map((seat, index) => {
       const row = Math.floor(index / cols);
       const col = index % cols;
@@ -134,13 +254,14 @@ export const useEditorStore = create<EditorStore>((set) => ({
       };
     });
 
-    return {
+    set({
       seats: [...state.seats, ...newSeats],
       isPlacementMode: false,
       pendingSeats: [],
       gridRows: 0,
       gridCols: 0,
-    };
-  }),
+    });
+    
+    get().saveHistory();
+  },
 }));
-
