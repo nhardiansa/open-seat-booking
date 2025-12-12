@@ -5,22 +5,25 @@ import { EditorSidebar } from '@/components/editor/EditorSidebar';
 
 export default function Editor() {
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
-      {/* Toolbar - Top */}
-      <EditorToolbar />
+    <>
+      <title>Editor - Open Seat Booking</title>
+      <div className="h-[calc(100vh-4rem)] flex flex-col">
+        {/* Toolbar - Top */}
+        <EditorToolbar />
 
-      {/* Main Content - 3 columns */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Toolbox - Left */}
-        <EditorToolbox />
+        {/* Main Content - 3 columns */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Toolbox - Left */}
+          <EditorToolbox />
 
-        {/* Canvas - Center */}
-        <EditorCanvas />
+          {/* Canvas - Center */}
+          <EditorCanvas />
 
-        {/* Sidebar - Right */}
-        <EditorSidebar />
+          {/* Sidebar - Right */}
+          <EditorSidebar />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

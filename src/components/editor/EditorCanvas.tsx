@@ -3,8 +3,8 @@ import { Stage, Layer, Circle, Text, Group } from 'react-konva';
 import { useEditorStore } from '@/store/editorStore';
 import type { KonvaEventObject } from 'konva/lib/Node';
 
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
+const CANVAS_WIDTH = 1000;
+const CANVAS_HEIGHT = 700;
 
 export function EditorCanvas() {
   const seats = useEditorStore((state) => state.seats);
