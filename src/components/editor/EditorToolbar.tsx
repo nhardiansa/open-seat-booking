@@ -16,7 +16,7 @@ export function EditorToolbar() {
   ];
 
   return (
-    <div className="h-12 bg-card border-b border-border flex items-center px-4 gap-1">
+    <div className="h-9 bg-card border-b-2 border-b-[#E2E2E2] border-border flex items-center px-4 gap-1">
       {actions.map((action) => {
         if (action.divider) {
           return (

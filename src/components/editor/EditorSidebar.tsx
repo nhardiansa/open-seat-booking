@@ -12,7 +12,7 @@ export function EditorSidebar() {
 
   if (!selectedSeat) {
     return (
-      <div className="w-64 bg-card border-l border-border p-4">
+      <div className="w-64 bg-card border-l-2 border-l-[#E2E2E2] border-border p-4">
         <div className="text-center text-muted-foreground py-8">
           <p className="text-sm">No object selected</p>
           <p className="text-xs mt-2">Click on a seat to edit its properties</p>
@@ -22,7 +22,7 @@ export function EditorSidebar() {
   }
 
   return (
-    <div className="w-64 bg-card border-l border-border p-4 overflow-y-auto">
+    <div className="w-64 bg-card border-l-2 border-l-[#E2E2E2] border-border p-4 overflow-y-auto">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="font-semibold">Seat Properties</h3>
         <button

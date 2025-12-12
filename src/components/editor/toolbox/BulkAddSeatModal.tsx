@@ -28,7 +28,7 @@ export function BulkAddSeatModal({ open, onOpenChange, onConfirm }: BulkAddSeatM
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-white">
         <DialogHeader>
           <DialogTitle>Add Seats in Bulk</DialogTitle>
           <DialogDescription>
@@ -85,13 +85,14 @@ export function BulkAddSeatModal({ open, onOpenChange, onConfirm }: BulkAddSeatM
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="px-4 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+              // make button cancel have style like common cancel button like color red
+              className="cursor-pointer px-4 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors bg-red-400 text-white"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+              className="cursor-pointer px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
             >
               Create
             </button>

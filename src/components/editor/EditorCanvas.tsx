@@ -96,8 +96,8 @@ export function EditorCanvas() {
   }, [isPlacementMode, cancelPlacementMode]);
 
   return (
-    <div className="flex-1 bg-muted/30 overflow-auto flex items-center justify-center p-4">
-      <div className="bg-background shadow-lg" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
+    <div className="flex-1 bg-gray-200 overflow-auto flex items-center justify-center p-4">
+      <div className="bg-[#f9fafb] shadow-lg" style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}>
         <Stage
           width={CANVAS_WIDTH}
           height={CANVAS_HEIGHT}
