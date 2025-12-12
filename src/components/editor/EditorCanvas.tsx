@@ -202,8 +202,8 @@ export function EditorCanvas() {
   };
 
   const previewSeats = getPreviewSeats();
-  // Show minimap only when zoomed in (> 100%)
-  const showMinimap = zoom > 1;
+  // Show minimap only when zoomed in (>= 100%)
+  const showMinimap = zoom >= 1;
 
   const minimapScale = 0.1;
   const viewportWidth = (canvasWidth + 200) / zoom;
