@@ -210,12 +210,17 @@ export function EditorCanvas() {
   const viewportHeight = (canvasHeight + 100) / zoom;
 
   return (
-    <div className="flex-1 bg-gray-200 overflow-hidden flex items-center justify-center relative" style={{ cursor: isPanning ? 'grab' : 'default' }}>
-      <div className="bg-gray-300 shadow-lg overflow-hidden" style={{ width: canvasWidth + 200, height: canvasHeight + 100 }}>
+    <div className="flex-1 bg-red-300 w-full h-full overflow-hidden flex items-center justify-center relative" style={{ cursor: isPanning ? 'grab' : 'default' }}>
+      <div className="shadow-lg bg-amber-300 overflow-hidden"
+        // style={{ width: canvasWidth + 200, height: canvasHeight + 100 }}
+        // style={{ width: canvasWidth, height: canvasHeight }}
+        style={{ width: '100%', height: '100%' }}
+      >
         <Stage
+          className='bg-gray-300'
           ref={stageRef}
-          width={canvasWidth + 200}
-          height={canvasHeight + 100}
+          width={canvasWidth * 2.26}
+          height={canvasHeight * 2.075}
           scaleX={zoom}
           scaleY={zoom}
           x={stagePosition.x}
