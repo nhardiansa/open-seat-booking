@@ -6,5 +6,10 @@ export const Route = createFileRoute('/drafter')({
 })
 
 function Drafter() {
-  return <DrafterPage />
+  return (
+    <>
+      <title>Drafter - Open Seat Booking</title>
+      <DrafterPage />
+    </>
+  )
 }
