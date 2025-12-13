@@ -5,15 +5,22 @@ import {
   Square,
   Circle,
   Shapes,
+  type LucideProps,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useUIStore, type UIStore } from "@/lib/stores/uiStores"
+import { useEffect } from "react"
 
-interface ToolSidebarProps {
-  selectedTool: string
-  onToolSelect: (tool: string) => void
+interface ToolGroups {
+  name: string,
+  tools: {
+    id: UIStore['selectedTool'],
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>,
+    label: string,
+  }[]
 }
 
-const toolGroups = [
+const toolGroups: ToolGroups[] = [
   {
     name: "Selection",
     tools: [
@@ -23,9 +30,9 @@ const toolGroups = [
   {
     name: "Shapes",
     tools: [
-      { id: "rectangle", icon: Square, label: "Rectangle" },
-      { id: "circle", icon: Circle, label: "Circle" },
-      { id: "shapes", icon: Shapes, label: "Shapes" },
+      { id: "add-landmark", icon: Square, label: "Add Landmark" },
+      { id: "add-single-seat", icon: Circle, label: "Add Single Seat" },
+      { id: "add-multiple-seats", icon: Shapes, label: "Add Multiple Seats" },
     ],
   },
   // {
@@ -56,7 +63,23 @@ const toolGroups = [
   // },
 ]
 
-export function ToolSidebar({ selectedTool, onToolSelect }: ToolSidebarProps) {
+export function ToolSidebar() {
+
+  const { setSelectedTool, selectedTool } = useUIStore()
+
+  const onToolSelect = (tool: UIStore['selectedTool']) => {
+    setSelectedTool(tool)
+  }
+
+  useEffect(() => {
+    console.log(selectedTool)
+    if (selectedTool === "add-single-seat") {
+      document.body.style.cursor = "crosshair"
+    } else {
+      document.body.style.cursor = "default"
+    }
+  }, [selectedTool])
+
   return (
     <aside className="w-16 bg-sidebar border-r border-sidebar-border flex flex-col top-0 bottom-0">
       <div className="flex-1 py-4">
@@ -73,7 +96,7 @@ export function ToolSidebar({ selectedTool, onToolSelect }: ToolSidebarProps) {
                   className={cn(
                     "w-10 h-10 p-0 flex flex-col items-center justify-center",
                     selectedTool === tool.id
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                      ? "bg-sidebar-primary-foreground text-sidebar-primary"
                       : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                   )}
                   onClick={() => onToolSelect(tool.id)}

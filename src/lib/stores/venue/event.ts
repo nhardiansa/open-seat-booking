@@ -43,11 +43,11 @@ export const useVenueStore = create<VenueStore>((set) => ({
 /*=============== Seats Store =============== */
 interface Seat {
   id: string,
-  x: number,           // posisi X di canvas
-  y: number,           // posisi Y di canvas
-  width: number,        // lebar kursi
-  height: number,       // tinggi kursi
-  seatNumber: string, // nomor kursi
+  position: {
+    x: number,
+    y: number
+  },
+  seatLabel: string, // nomor kursi
   categoryId: string,  // kategori
   status: "available" | "selected" | "booked", // available | selected | booked
   rotation: number       // untuk rotasi kursi (opsional)
@@ -68,10 +68,12 @@ export const useSeatsStore = create<SeatsStore>((set) => ({
   seats: [],
 
   // actions
-  addSeat: (seat: Seat) => set((state) => ({
-    ...state,
-    seats: [...state.seats, seat],
-  })),
+  addSeat: (seat: Seat) => set((state) => {
+    return {
+      ...state,
+      seats: [...state.seats, seat],
+    }
+  }),
   deleteSeat: (seatId: string) => set((state) => ({
     ...state,
     seats: state.seats.filter((seat) => seat.id !== seatId),
