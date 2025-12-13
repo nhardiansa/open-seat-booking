@@ -58,7 +58,7 @@ const toolGroups = [
 
 export function ToolSidebar({ selectedTool, onToolSelect }: ToolSidebarProps) {
   return (
-    <aside className="w-16 bg-sidebar border-r border-sidebar-border flex flex-col">
+    <aside className="w-16 bg-sidebar border-r border-sidebar-border flex flex-col top-0 bottom-0">
       <div className="flex-1 py-4">
         {toolGroups.map((group, groupIndex) => (
           <div key={group.name} className="mb-4">

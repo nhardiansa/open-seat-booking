@@ -21,14 +21,14 @@ export function LayoutEditor() {
         onThemeToggle={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative">
 
         {/* Left Sidebar */}
         <ToolSidebar selectedTool={selectedTool} onToolSelect={setSelectedTool} />
 
         {/* Main Canvas */}
         <main className="flex-1 relative">
-          <Canvas selectedTool={selectedTool} />
+          <Canvas />
         </main>
 
         {/* Right Sidebar */}

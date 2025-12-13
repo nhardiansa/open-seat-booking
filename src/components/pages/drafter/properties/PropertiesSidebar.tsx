@@ -3,7 +3,7 @@ import { Check, Search, Settings } from "lucide-react"
 
 export function PropertiesSidebar() {
   return (
-    <aside className="w-80 bg-surface border-l border-border flex flex-col">
+    <aside className="w-80 bg-surface border-l border-border flex flex-col absolute top-0 bottom-0 right-0">
       {/* Header */}
       <div className="p-4 border-b border-border">
         <h2 className="text-lg font-semibold text-foreground">Small theatre with GA chart</h2>
