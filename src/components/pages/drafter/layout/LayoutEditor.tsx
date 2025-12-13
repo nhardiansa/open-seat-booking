@@ -22,12 +22,16 @@ export function LayoutEditor() {
       />
 
       <div className="flex flex-1 overflow-hidden">
+
+        {/* Left Sidebar */}
         <ToolSidebar selectedTool={selectedTool} onToolSelect={setSelectedTool} />
 
+        {/* Main Canvas */}
         <main className="flex-1 relative">
           <Canvas selectedTool={selectedTool} />
         </main>
 
+        {/* Right Sidebar */}
         <PropertiesSidebar />
       </div>
     </div>
