@@ -1,3 +1,4 @@
+// import type { SeatCategory } from '@/lib/types'
 import { create } from 'zustand'
 
 
@@ -33,6 +34,11 @@ export const useVenueStore = create<VenueStore>((set) => ({
 }))
 
 
+// const categories: SeatCategory[] = [
+//   { id: "vip", name: "VIP", color: "#FFD700", price: 500000 },
+//   { id: "regular", name: "Regular", color: "#4A90E2", price: 250000 },
+//   { id: "economy", name: "Economy", color: "#95A5A6", price: 100000 }
+// ]
 
 /*=============== Seats Store =============== */
 interface Seat {
