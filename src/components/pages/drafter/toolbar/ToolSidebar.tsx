@@ -8,8 +8,8 @@ import {
   type LucideProps,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useUIStore, type UIStore } from "@/lib/stores/uiStores"
-import { useEffect } from "react"
+import { useToolSideBar } from "@/hooks/drafter/useToolSideBar"
+import type { UIStore } from "@/lib/stores/uiStores"
 
 interface ToolGroups {
   name: string,
@@ -63,22 +63,8 @@ const toolGroups: ToolGroups[] = [
   // },
 ]
 
-export function ToolSidebar() {
-
-  const { setSelectedTool, selectedTool } = useUIStore()
-
-  const onToolSelect = (tool: UIStore['selectedTool']) => {
-    setSelectedTool(tool)
-  }
-
-  useEffect(() => {
-    console.log(selectedTool)
-    if (selectedTool === "add-single-seat") {
-      document.body.style.cursor = "crosshair"
-    } else {
-      document.body.style.cursor = "default"
-    }
-  }, [selectedTool])
+export function ToolSideBar() {
+  const { selectedTool, handleToolSelect } = useToolSideBar()
 
   return (
     <aside className="w-16 bg-sidebar border-r border-sidebar-border flex flex-col top-0 bottom-0">
@@ -99,7 +85,7 @@ export function ToolSidebar() {
                       ? "bg-sidebar-primary-foreground text-sidebar-primary"
                       : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                   )}
-                  onClick={() => onToolSelect(tool.id)}
+                  onClick={() => handleToolSelect(tool.id)}
                   title={tool.label}
                 >
                   <tool.icon className="h-5 w-5" />
