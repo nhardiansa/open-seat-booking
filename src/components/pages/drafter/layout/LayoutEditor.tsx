@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Canvas } from "../canvas/Canvas"
 import { TopBar } from "../toolbar/TopBar"
 import { PropertiesSidebar } from "../properties/PropertiesSidebar"
-import { ToolSideBar } from "../toolbar/ToolSidebar"
+import { ToolSideBar } from "../toolbar/ToolSideBar"
 
 export function LayoutEditor() {
   const [projectName, setProjectName] = useState("Theater Layout Design")
