@@ -11,8 +11,11 @@ export const Seats = () => {
             key={seat.id}
             x={seat.position.x}
             y={seat.position.y}
-            color="#f54f2a"
-            isDraggable
+            color="#F6B4B8"
+            storeColor={"#E03838"}
+            fontSize={11}
+            isDraggable={seat.isDraggable || true}
+            seatNumber={seat.displaySeatNumber}
           />
         ))
       }

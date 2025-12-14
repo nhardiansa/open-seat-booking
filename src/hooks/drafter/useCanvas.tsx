@@ -44,6 +44,7 @@ export const useCanvas = () => {
       return
     }
 
+    const seatCategory = "VIP"
     // 
     seatsStore.addSeat({
       id: (seatsStore.seats.length + 1).toString(),
@@ -51,8 +52,9 @@ export const useCanvas = () => {
         x,
         y,
       },
-      categoryId: "VIP",
-      seatNumber: "VIP-1",
+      categoryId: seatCategory,
+      seatNumber: `${seatCategory}-${seatsStore.seats.length + 1}`,
+      displaySeatNumber: `${seatsStore.seats.length + 1}`,
       status: "available",
       isManualNumber: false,
       realtimeStatus: {

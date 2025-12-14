@@ -16,7 +16,9 @@ export interface Seat {
     x: number,
     y: number
   },
+  isDraggable?: boolean,
   seatNumber: string, // nomor kursi
+  displaySeatNumber: string, // nomor kursi yang akan ditampilkan
   isManualNumber: boolean
   categoryId: string,  // kategori
   status: "available" | "selected" | "booked", // available | selected | booked
