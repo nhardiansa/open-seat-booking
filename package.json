@@ -15,6 +15,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-router": "^1.141.2",
     "@tanstack/react-router-devtools": "^1.141.2",
+    "add": "^2.0.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "konva": "^10.0.12",
@@ -24,7 +25,8 @@
     "react-dom": "^19.2.3",
     "react-konva": "^19.2.1",
     "tailwind-merge": "^3.4.0",
-    "zustand": "^5.0.9"
+    "zustand": "^5.0.9",
+    "zustand-persist": "^0.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

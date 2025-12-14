@@ -43,56 +43,58 @@ interface SeatsStore {
   updateSeatRealtimeStatus: (seatId: string, status: Partial<RealtimeStatus>) => void
 }
 
-export const useSeatsStore = create<SeatsStore>((set) => ({
-  seats: [],
+export const useSeatsStore = create<SeatsStore>()(
+  (set) => ({
+    seats: [],
 
-  // actions
-  addSeat: (seat: Seat) => set((state) => {
-    return {
+    // actions
+    addSeat: (seat: Seat) => set((state) => {
+      return {
+        ...state,
+        seats: [...state.seats, seat],
+      }
+    }),
+    bulkAddSeats: (seats: Seat[]) => set((state) => {
+      return {
+        ...state,
+        seats: [...state.seats, ...seats],
+      }
+    }),
+    deleteSeat: (seatId: string) => set((state) => ({
       ...state,
-      seats: [...state.seats, seat],
-    }
-  }),
-  bulkAddSeats: (seats: Seat[]) => set((state) => {
-    return {
+      seats: state.seats.filter((seat) => seat.id !== seatId),
+    })),
+    updateSeat: (seat: Seat) => set((state) => ({
+      ...state,
+      seats: state.seats.map((s) => (s.id === seat.id ? seat : s)),
+    })),
+    bulkUpdateSeats: (seats: Seat[]) => set((state) => ({
       ...state,
       seats: [...state.seats, ...seats],
-    }
-  }),
-  deleteSeat: (seatId: string) => set((state) => ({
-    ...state,
-    seats: state.seats.filter((seat) => seat.id !== seatId),
-  })),
-  updateSeat: (seat: Seat) => set((state) => ({
-    ...state,
-    seats: state.seats.map((s) => (s.id === seat.id ? seat : s)),
-  })),
-  bulkUpdateSeats: (seats: Seat[]) => set((state) => ({
-    ...state,
-    seats: [...state.seats, ...seats],
-  })),
-  loadSeats: (seats: Seat[]) => set((state) => ({
-    ...state,
-    seats: [...state.seats, ...seats],
-  })),
+    })),
+    loadSeats: (seats: Seat[]) => set((state) => ({
+      ...state,
+      seats: [...state.seats, ...seats],
+    })),
 
-  // realtime actions
-  lockSeat: (seatId: string, operator: Operator, duration: number) => set((state) => {
-    return {
-      ...state,
-      seats: state.seats.map((seat) => (seat.id === seatId ? { ...seat, realtimeStatus: { ...seat.realtimeStatus, isLocked: true, lockedBy: operator.id, lockedByName: operator.name, lockedAt: Date.now(), expiresAt: Date.now() + duration } } : seat)),
-    }
-  }),
-  unlockSeat: (seatId: string) => set((state) => {
-    return {
-      ...state,
-      seats: state.seats.map((seat) => (seat.id === seatId ? { ...seat, realtimeStatus: { ...seat.realtimeStatus, isLocked: false, lockedBy: null, lockedByName: null, lockedAt: null, expiresAt: null } } : seat)),
-    }
-  }),
-  updateSeatRealtimeStatus: (seatId: string, status: Partial<RealtimeStatus>) => set((state) => {
-    return {
-      ...state,
-      seats: state.seats.map((seat) => (seat.id === seatId ? { ...seat, realtimeStatus: { ...seat.realtimeStatus, ...status } } : seat)),
-    }
-  }),
-}))
+    // realtime actions
+    lockSeat: (seatId: string, operator: Operator, duration: number) => set((state) => {
+      return {
+        ...state,
+        seats: state.seats.map((seat) => (seat.id === seatId ? { ...seat, realtimeStatus: { ...seat.realtimeStatus, isLocked: true, lockedBy: operator.id, lockedByName: operator.name, lockedAt: Date.now(), expiresAt: Date.now() + duration } } : seat)),
+      }
+    }),
+    unlockSeat: (seatId: string) => set((state) => {
+      return {
+        ...state,
+        seats: state.seats.map((seat) => (seat.id === seatId ? { ...seat, realtimeStatus: { ...seat.realtimeStatus, isLocked: false, lockedBy: null, lockedByName: null, lockedAt: null, expiresAt: null } } : seat)),
+      }
+    }),
+    updateSeatRealtimeStatus: (seatId: string, status: Partial<RealtimeStatus>) => set((state) => {
+      return {
+        ...state,
+        seats: state.seats.map((seat) => (seat.id === seatId ? { ...seat, realtimeStatus: { ...seat.realtimeStatus, ...status } } : seat)),
+      }
+    }),
+  })
+)
