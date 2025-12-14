@@ -49,29 +49,29 @@ VITE_USE_MOCK_SOCKET=true
 
 ### Organizer
 
-- Manual add seat (1 click = 1 seat)
-- Bulk add: Grid generator (rows × columns)
-- Bulk add: Row generator (line of seats)
-- Drag & reposition seats
-- Edit seat properties (number, category, price)
-- Delete seats (single & bulk)
-- Auto-save to localStorage
+- [ ] Manual add seat (1 click = 1 seat)
+- [ ] Bulk add: Grid generator (rows × columns)
+- [ ] Bulk add: Row generator (line of seats)
+- [ ] Drag & reposition seats
+- [ ] Edit seat properties (number, category, price)
+- [ ] Delete seats (single & bulk)
+- [ ] Auto-save to localStorage
 
 ### Customer/Operator
 
-- View venue layout (mobile-first, responsive)
-- Select seats with real-time locking
-- Booking summary with countdown timer
-- Checkout flow (mock payment)
-- Multi-operator conflict prevention
+- [ ] View venue layout (mobile-first, responsive)
+- [ ] Select seats with real-time locking
+- [ ] Booking summary with countdown timer
+- [ ] Checkout flow (mock payment)
+- [ ] Multi-operator conflict prevention
 
 ### Real-time
 
-- Seat locking (5 min duration)
-- Auto-unlock on timeout
-- Multi-operator support (3+ simultaneously)
-- Visual indicators for locked seats
-- Operator activity tracking
+- [ ] Seat locking (5 min duration)
+- [ ] Auto-unlock on timeout
+- [ ] Multi-operator support (3+ simultaneously)
+- [ ] Visual indicators for locked seats
+- [ ] Operator activity tracking
 
 ## Tech Stack
 
