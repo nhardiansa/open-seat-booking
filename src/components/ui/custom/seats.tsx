@@ -1,4 +1,4 @@
-import { useSeatsStore } from "@/lib/stores/venue/event"
+import { useSeatsStore } from "@/lib/stores/seatsStore"
 import { Seat } from "./seat"
 
 export const Seats = () => {

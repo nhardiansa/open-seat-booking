@@ -1,5 +1,5 @@
+import { useSeatsStore } from "@/lib/stores/seatsStore"
 import { useUIStore } from "@/lib/stores/uiStores"
-import { useSeatsStore } from "@/lib/stores/venue/event"
 import type Konva from "konva"
 import { useEffect } from "react"
 
@@ -15,7 +15,7 @@ export const useCanvas = () => {
     // Cek apakah klik di empty space (bukan di seat)
     if (e.target === e.target.getStage()) {
 
-      const toolMode = uiStore.selectedTool
+      const toolMode = uiStore.toolMode
 
       if (toolMode === "add-single-seat") {
 
@@ -52,9 +52,17 @@ export const useCanvas = () => {
         y,
       },
       categoryId: "VIP",
-      seatLabel: "VIP",
+      seatNumber: "VIP-1",
       status: "available",
-      rotation: 0,
+      isManualNumber: false,
+      realtimeStatus: {
+        isLocked: false,
+        lockedBy: null,
+        lockedByName: null,
+        lockedAt: null,
+        expiresAt: null,
+        isPendingPayment: false,
+      },
     })
   }
 

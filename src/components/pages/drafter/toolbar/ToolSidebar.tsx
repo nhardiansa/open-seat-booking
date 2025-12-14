@@ -9,12 +9,12 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToolSideBar } from "@/hooks/drafter/useToolSideBar"
-import type { UIStore } from "@/lib/stores/uiStores"
+import type { ToolMode } from "@/lib/stores/uiStores"
 
 interface ToolGroups {
   name: string,
   tools: {
-    id: UIStore['selectedTool'],
+    id: ToolMode,
     icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>,
     label: string,
   }[]
@@ -64,7 +64,7 @@ const toolGroups: ToolGroups[] = [
 ]
 
 export function ToolSideBar() {
-  const { selectedTool, handleToolSelect } = useToolSideBar()
+  const { toolMode, handleToolSelect } = useToolSideBar()
 
   return (
     <aside className="w-16 bg-sidebar border-r border-sidebar-border flex flex-col top-0 bottom-0">
@@ -77,11 +77,11 @@ export function ToolSideBar() {
               {group.tools.map((tool) => (
                 <Button
                   key={tool.id}
-                  variant={selectedTool === tool.id ? "default" : "ghost"}
+                  variant={toolMode === tool.id ? "default" : "ghost"}
                   size="sm"
                   className={cn(
                     "w-10 h-10 p-0 flex flex-col items-center justify-center",
-                    selectedTool === tool.id
+                    toolMode === tool.id
                       ? "bg-sidebar-primary-foreground text-sidebar-primary"
                       : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                   )}

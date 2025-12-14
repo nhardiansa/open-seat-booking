@@ -1,24 +1,24 @@
-import { useUIStore, type UIStore } from "@/lib/stores/uiStores"
+import { useUIStore, type ToolMode } from "@/lib/stores/uiStores"
 import { useEffect } from "react"
 
 export const useToolSideBar = () => {
 
-  const { setSelectedTool, selectedTool } = useUIStore()
+  const { toolMode, setToolMode } = useUIStore()
 
-  const handleToolSelect = (tool: UIStore['selectedTool']) => {
-    setSelectedTool(tool)
+  const handleToolSelect = (tool: ToolMode) => {
+    setToolMode(tool)
   }
 
   useEffect(() => {
-    if (selectedTool === "add-single-seat") {
+    if (toolMode === "add-single-seat") {
       document.body.style.cursor = "crosshair"
     } else {
       document.body.style.cursor = "default"
     }
-  }, [selectedTool])
+  }, [toolMode])
 
   return {
-    selectedTool,
+    toolMode,
     handleToolSelect,
   }
 }

@@ -20,7 +20,7 @@ export interface Seat {
   isManualNumber: boolean
   categoryId: string,  // kategori
   status: "available" | "selected" | "booked", // available | selected | booked
-  rotation: number       // untuk rotasi kursi (opsional)
+  // rotation: number       // untuk rotasi kursi (opsional)
   realtimeStatus: RealtimeStatus
 }
 
