@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# Open Seat Booking - MVP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web-based seat booking system for events, where organizers can design venue layouts through an interactive canvas, and attendees can select seats in real time with a locking mechanism and multi-operator support—similar to seats.io, but fully integrated with an end-to-end booking flow.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Node.js (v20+)
+- pnpm (v10+)
 
-## React Compiler
+## Installation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Running the App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Development mode
+pnpm dev
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Production build
+pnpm build
+
+# Preview production build
+pnpm preview
 ```
+
+## Environment Variables
+
+Create `.env` file in root directory:
+
+```env
+VITE_API_URL=http://localhost:3001/api
+VITE_SOCKET_URL=http://localhost:3001
+VITE_USE_MOCK_API=true
+VITE_USE_MOCK_SOCKET=true
+```
+
+## Routes
+
+- `/` - Landing page
+- `/organizer` - Create and edit venue layout
+- `/operator/:eventId` - Operator/cashier view (loket)
+- `/event/:eventId` - Customer booking view
+
+## Features
+
+### Organizer
+
+- Manual add seat (1 click = 1 seat)
+- Bulk add: Grid generator (rows × columns)
+- Bulk add: Row generator (line of seats)
+- Drag & reposition seats
+- Edit seat properties (number, category, price)
+- Delete seats (single & bulk)
+- Auto-save to localStorage
+
+### Customer/Operator
+
+- View venue layout (mobile-first, responsive)
+- Select seats with real-time locking
+- Booking summary with countdown timer
+- Checkout flow (mock payment)
+- Multi-operator conflict prevention
+
+### Real-time
+
+- Seat locking (5 min duration)
+- Auto-unlock on timeout
+- Multi-operator support (3+ simultaneously)
+- Visual indicators for locked seats
+- Operator activity tracking
+
+## Tech Stack
+
+- React 19
+- Konva.js (canvas rendering)
+- Zustand (state management)
+- React Router (routing)
+- Vite (build tool)
+
+## Known Limitations (MVP)
+
+- Max 2000 seats per venue
+- LocalStorage only (no backend yet)
+- Mock real-time (no actual WebSocket server)
+- Mock payment (no real transactions)
+
+## Support
+
+For issues or questions, contact: <nhardiansa25@gmail.com>
