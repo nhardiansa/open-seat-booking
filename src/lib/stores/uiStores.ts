@@ -1,8 +1,9 @@
 import { create } from 'zustand'
+import { TEMP_SPACING_X, TEMP_SPACING_Y } from '../constants'
 
-export type ToolMode = "select" | "add-single-seat" | "add-multiple-seats" | "add-landmark"
+export type ToolMode = "select" | "add-single-seat" | "add-multiple-seats" | "grid-placement" | "add-landmark"
 
-interface GridConfig {
+export interface GridConfig {
   rows: number
   columns: number
   spacingX: number
@@ -61,8 +62,8 @@ export const useUIStore = create<UIStore>((set) => ({
   gridConfig: {
     rows: 0,
     columns: 0,
-    spacingX: 0,
-    spacingY: 0,
+    spacingX: TEMP_SPACING_X,
+    spacingY: TEMP_SPACING_Y,
     startX: 0,
     startY: 0,
     startRow: "",

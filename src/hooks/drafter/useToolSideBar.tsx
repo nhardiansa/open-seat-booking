@@ -12,9 +12,15 @@ export const useToolSideBar = () => {
   useEffect(() => {
     if (toolMode === "add-single-seat") {
       document.body.style.cursor = "crosshair"
-    } else {
-      document.body.style.cursor = "default"
+      return
     }
+
+    if (toolMode === "grid-placement") {
+      document.body.style.cursor = "crosshair"
+      return
+    }
+
+    document.body.style.cursor = "default"
   }, [toolMode])
 
   return {

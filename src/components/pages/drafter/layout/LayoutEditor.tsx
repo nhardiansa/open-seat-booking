@@ -3,6 +3,7 @@ import { Canvas } from "../canvas/Canvas"
 import { TopBar } from "../toolbar/TopBar"
 import { PropertiesSidebar } from "../properties/PropertiesSidebar"
 import { ToolSideBar } from "../toolbar/ToolSideBar"
+import { GridGeneratorDialog } from "../toolbar/modals/GridGeneratorModal"
 
 export function LayoutEditor() {
   const [projectName, setProjectName] = useState("Theater Layout Design")
@@ -32,6 +33,9 @@ export function LayoutEditor() {
 
         {/* Right Sidebar */}
         <PropertiesSidebar />
+
+        {/* Modal */}
+        <GridGeneratorDialog />
       </div>
     </div>
   )

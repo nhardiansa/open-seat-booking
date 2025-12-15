@@ -1,23 +1,27 @@
-import { useSeatsStore } from "@/lib/stores/seatsStore"
-import { Seat } from "./seat"
+import { Seat, type SeatProps } from "./seat"
 
-export const Seats = () => {
-  const seatsStore = useSeatsStore()
+interface SeatsProps {
+  seats: SeatProps[]
+}
+
+export const Seats = ({ seats }: SeatsProps) => {
   return (
     <>
       {
-        seatsStore.seats.map((seat) => (
-          <Seat
-            key={seat.id}
-            x={seat.position.x}
-            y={seat.position.y}
-            color="#F6B4B8"
-            storeColor={"#E03838"}
-            fontSize={11}
-            isDraggable={seat.isDraggable || true}
-            seatNumber={seat.displaySeatNumber}
-          />
-        ))
+        seats.map((seat, index) => {
+          return (
+            <Seat
+              key={index}
+              x={seat.x}
+              y={seat.y}
+              color="#F6B4B8"
+              strokeColor={"#E03838"}
+              fontSize={11}
+              isDraggable={seat.isDraggable || true}
+              seatNumber={seat.seatNumber}
+            />
+          )
+        })
       }
     </>
   )

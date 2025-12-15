@@ -2,13 +2,12 @@ import { BottomBar } from "../toolbar/BottomBar"
 import { Stage, Layer } from "react-konva"
 import { useCanvas } from "@/hooks/drafter/useCanvas"
 import { Seats } from "@/components/ui/custom/seats"
-
-const CANVAS_WIDTH = 1000
-const CANVAS_HEIGHT = 700
+import { PreviewSeats } from "@/components/ui/custom/preview-seats"
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from "@/lib/constants"
 
 export function Canvas() {
 
-  const { handleStageClick } = useCanvas()
+  const { handleStageClick, seats, handleMouseMove, previewSeats, isPreviewValid, outOfBoundsSeats } = useCanvas()
 
   return (
     <div className="h-full flex flex-col bg-background">
@@ -30,9 +29,20 @@ export function Canvas() {
               width={CANVAS_WIDTH}
               height={CANVAS_HEIGHT}
               onClick={handleStageClick}
+              onMouseMove={handleMouseMove}
             >
               <Layer>
-                <Seats />
+                <Seats seats={seats.map(seat => ({
+                  x: seat.position.x,
+                  y: seat.position.y,
+                  color: "",
+                  fontSize: 0,
+                  isDraggable: true,
+                  seatNumber: seat.displaySeatNumber,
+                  strokeColor: "",
+                }))} />
+
+                <PreviewSeats seats={previewSeats} isValid={isPreviewValid} outOfBoundsSeats={outOfBoundsSeats} />
               </Layer>
             </Stage>
           </div>

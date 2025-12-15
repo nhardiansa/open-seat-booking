@@ -4,8 +4,8 @@ import {
   MousePointer,
   Square,
   Circle,
-  Shapes,
   type LucideProps,
+  Grid3x2,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToolSideBar } from "@/hooks/drafter/useToolSideBar"
@@ -32,7 +32,7 @@ const toolGroups: ToolGroups[] = [
     tools: [
       { id: "add-landmark", icon: Square, label: "Add Landmark" },
       { id: "add-single-seat", icon: Circle, label: "Add Single Seat" },
-      { id: "add-multiple-seats", icon: Shapes, label: "Add Multiple Seats" },
+      { id: "add-multiple-seats", icon: Grid3x2, label: "Add Multiple Seats" },
     ],
   },
   // {

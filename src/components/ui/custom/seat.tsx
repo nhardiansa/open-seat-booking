@@ -1,16 +1,17 @@
 import { Circle, Group, Text } from "react-konva";
 
-interface SeatProps {
+export interface SeatProps {
   x: number;
   y: number;
   color: string;
-  storeColor?: string;
+  strokeColor?: string;
   isDraggable?: boolean;
   seatNumber?: string;
   fontSize?: number;
+  opacity?: number;
 }
 
-export function Seat({ x, y, color, storeColor, isDraggable, seatNumber, fontSize }: SeatProps) {
+export function Seat({ x, y, color, strokeColor, isDraggable, seatNumber, fontSize, opacity }: SeatProps) {
 
   return (
     <>
@@ -24,10 +25,11 @@ export function Seat({ x, y, color, storeColor, isDraggable, seatNumber, fontSiz
             <Circle
               width={16}
               height={16}
-              stroke={storeColor}
-              strokeWidth={storeColor ? 1 : 0}
+              stroke={strokeColor}
+              strokeWidth={strokeColor ? 1 : 0}
               radius={8}
               fill={color}
+              opacity={opacity || 1}
             />
             <Text
               text={seatNumber}
