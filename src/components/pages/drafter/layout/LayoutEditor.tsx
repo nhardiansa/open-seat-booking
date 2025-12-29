@@ -1,42 +1,32 @@
-import { useState } from "react"
-import { Canvas } from "../canvas/Canvas"
-import { TopBar } from "../toolbar/TopBar"
-import { PropertiesSidebar } from "../properties/PropertiesSidebar"
-import { ToolSideBar } from "../toolbar/ToolSideBar"
-import { GridGeneratorDialog } from "../toolbar/modals/GridGeneratorModal"
+import SeatToolkit from "@mezh-hq/react-seat-toolkit"
+import "../../../../../node_modules/@mezh-hq/react-seat-toolkit/dist/index.css"
 
 export function LayoutEditor() {
-  const [projectName, setProjectName] = useState("Theater Layout Design")
-  const [isReadOnly, setIsReadOnly] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
   return (
-    <div className="h-screen flex flex-col bg-background">
-      <TopBar
-        projectName={projectName}
-        onProjectNameChange={setProjectName}
-        isReadOnly={isReadOnly}
-        onReadOnlyToggle={() => setIsReadOnly(!isReadOnly)}
-        isDarkMode={isDarkMode}
-        onThemeToggle={() => setIsDarkMode(!isDarkMode)}
-      />
-
-      <div className="flex flex-1 overflow-hidden relative">
-
-        {/* Left Sidebar */}
-        <ToolSideBar />
-
-        {/* Main Canvas */}
-        <main className="flex-1 relative">
-          <Canvas />
-        </main>
-
-        {/* Right Sidebar */}
-        <PropertiesSidebar />
-
-        {/* Modal */}
-        <GridGeneratorDialog />
-      </div>
-    </div>
+    <SeatToolkit
+      mode="designer"
+      events={{
+        onSeatClick: (seat) => {
+          console.log(seat)
+        },
+        onSeatSelectionChange(seats) {
+          console.log(seats)
+        },
+      }}
+      options={{
+        showZoomControls: true,
+        showAirplaneControl: true
+      }}
+      styles={{
+        workspace: {
+          container: {
+            properties: {
+              height: "100vh",
+            }
+          }
+        },
+      }}
+    />
   )
 }

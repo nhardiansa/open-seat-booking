@@ -15,7 +15,9 @@ interface GenerationResult {
 
 export function generateGrid(
   config: GridConfig,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canvas: Canvas,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   existingSeats?: Seat[]
 ): GenerationResult {
   const { rows, columns, spacingX, spacingY, startX, startY, startRow, startNum } = config

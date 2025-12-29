@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mezh-hq/react-seat-toolkit':
+        specifier: ^3.3.5
+        version: 3.3.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@radix-ui/react-checkbox':
         specifier: ^1.3.3
         version: 1.3.3(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -673,6 +676,12 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@mezh-hq/react-seat-toolkit@3.3.5':
+    resolution: {integrity: sha512-q3szXVoz/XF9yMB+/GI03IdiKI4ldw8b2SDmheDR7bTMlPZoafYUcJROSuf0rZ85IaY6fmgGMFuWXHKZteDRLA==}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
 
   '@radix-ui/number@1.1.1':
     resolution: {integrity: sha512-MkKCwxlXTgz6CFoJx3pCwn07GKp36+aZyu/u2Ln2VrA5DcdyCZkASEDBTd8x5whTQQL5CiYf4prXKLcgQdv29g==}
@@ -2772,6 +2781,11 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@mezh-hq/react-seat-toolkit@3.3.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
 
   '@radix-ui/number@1.1.1': {}
 
