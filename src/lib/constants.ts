@@ -6,5 +6,5 @@ export const CANVAS_HEIGHT = 700
 
 export const SEAT_RADIUS = 16
 
-export const TEMP_SPACING_X = 16
-export const TEMP_SPACING_Y = 16
+export const TEMP_SPACING_X = 20
+export const TEMP_SPACING_Y = 20

@@ -1,4 +1,4 @@
-import { MAX_SEATS } from "@/lib/constants"
+import { MAX_SEATS, TEMP_SPACING_X, TEMP_SPACING_Y } from "@/lib/constants"
 import { useSeatsStore } from "@/lib/stores/seatsStore"
 import { useUIStore } from "@/lib/stores/uiStores"
 import { useEffect, useState } from "react"
@@ -21,8 +21,8 @@ export function useGridGenerator() {
   const [config, setConfig] = useState<GridConfig>({
     rows: 10,
     columns: 10,
-    spacingX: 16,
-    spacingY: 16,
+    spacingX: TEMP_SPACING_X,
+    spacingY: TEMP_SPACING_Y,
     category: "Regular",
     startingRowLetter: "A",
     startingNumber: 1,

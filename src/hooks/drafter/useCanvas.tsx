@@ -67,6 +67,7 @@ export const useCanvas = () => {
       }
 
       if (toolMode === "grid-placement") {
+        handleAddBulkSeats()
       }
     }
   }
@@ -104,9 +105,18 @@ export const useCanvas = () => {
     })
   }
 
-  // const handleAddBulkSeats = () => {
+  const handleAddBulkSeats = () => {
+    console.log("Adding bulk seats")
+    seatsStore.bulkAddSeats(previewSeats)
 
-  // }
+    // cleanup
+    setPreviewSeats([])
+    setMousePosition({ x: 0, y: 0 })
+    uiStore.setToolMode('select')
+
+    // Show success notification
+    alert(`${previewSeats.length} seats created!`)
+  }
 
   // Generate preview grid based on mouse position
   const handleGeneratePreviewGrid = () => {
